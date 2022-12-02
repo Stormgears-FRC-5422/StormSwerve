@@ -5,14 +5,29 @@ import edu.wpi.first.math.MathUtil;
 
 public class StormTalon extends WPI_TalonSRX {
   private double scale = 1.0;
+  private int offset = 0;
+  private int timeoutMs = 15;
 
   public StormTalon(int deviceID) {
     super(deviceID);
+    this.getSensorCollection().setQuadraturePosition(getPWMPosition(), timeoutMs);
+  }
+
+  public void setOffset(int offset) {
+    this.offset = offset;
+  }
+
+  public int getPWMPosition() {
+    return this.getSensorCollection().getPulseWidthPosition() - offset;
+  }
+
+  public int getPosition() {
+    return this.getSensorCollection().getQuadraturePosition() - offset;
   }
 
   @Override
   public void set(double speed) {
-    // Could put safety features - e.g. tempeature control - here.
+    // Could put safety features - e.g. temperature control - here.
     super.set(scale * speed);
   }
 

@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.utils.configfile.StormProp;
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -24,11 +25,23 @@ public final class Constants {
 
 
     public static final int frontLeftDriveID = 9;
-    public static final int frontLeftSwivelID = 2;
     public static final int frontRightDriveID = 22;
-    public static final int frontRightSwivelID = 7;
     public static final int backLeftDriveID = 4;
-    public static final int backLeftSwivelID = 21;
     public static final int backRightDriveID = 8;
+
+    public static final int frontLeftSwivelID = 2;
+    public static final int frontRightSwivelID = 7;
+    public static final int backLeftSwivelID = 21;
     public static final int backRightSwivelID = 32;
+
+    public static final int frontLeftTalonID = 13;
+    public static final int frontRightTalonID = 29;
+    public static final int backLeftTalonID = 26;
+    public static final int backRightTalonID = 6;
+
+    public static final int frontLeftOffset=2901;
+    public static final int frontRightOffset=3936;
+    public static final int backLeftOffset=3391;
+    public static final int backRightOffset=923;
 }
+

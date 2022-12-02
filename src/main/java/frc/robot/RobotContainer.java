@@ -48,4 +48,8 @@ public class RobotContainer {
     // An ExampleCommand will run in autonomous
     return new RunCommand(() -> System.out.println("This is Auto --------"));
   }
+
+  public void homeAll() {
+    drive.setAllWheelPositions(0);
+  }
 }
