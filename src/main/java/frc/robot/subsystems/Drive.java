@@ -27,15 +27,21 @@ public class Drive extends SubsystemBase {
     private final StormTalon backLeftTalon;
     private final StormTalon backRightTalon;
 
-    private DoubleSupplier driveSpeedSupplier;
     private double driveSpeed;
-    private DoubleSupplier turnSpeedSupplier;
-    private double turnSpeed;
+    private final double speedDampen = 0.35;
+
+    public void setDriveSpeed(double driveSpeed) {
+        this.driveSpeed = driveSpeed;
+    }
+
+    public void setTurnPosition(double turnPosition) {
+        this.turnPosition = -turnPosition;
+    }
+
+    private double turnPosition;
 
     public Drive() {
         System.out.println("Drive----------------------------");
-        driveSpeedSupplier = () -> 0;
-        turnSpeedSupplier = () -> 0;
 
         frontLeftDrive = new StormSpark(frontLeftDriveID, StormSpark.MotorType.kBrushless, StormSpark.MotorKind.k550);
         frontRightDrive = new StormSpark(frontRightDriveID, StormSpark.MotorType.kBrushless, StormSpark.MotorKind.k550);
@@ -60,33 +66,26 @@ public class Drive extends SubsystemBase {
 
     @Override
     public void periodic() {
-        setAllWheelPositions(0);
         //System.out.println("frontLeftTalon: " + getPosition(frontLeftTalon));
-        driveSpeed = driveSpeedSupplier.getAsDouble();
-        turnSpeed = turnSpeedSupplier.getAsDouble();
 
         SmartDashboard.putNumber("FL Encoder", frontLeftTalon.getPosition());
         SmartDashboard.putNumber("FR Encoder", frontRightTalon.getPosition());
         SmartDashboard.putNumber("BL Encoder", backLeftTalon.getPosition());
         SmartDashboard.putNumber("BR Encoder", backRightTalon.getPosition());
 
-//        frontLeftDrive.set(driveSpeed);
-//        frontRightDrive.set(driveSpeed);
-//        backLeftDrive.set(driveSpeed);
-//        backRightDrive.set(driveSpeed);
-//
-//        frontLeftSwivel.set(turnSpeed);
-//        frontRightSwivel.set(turnSpeed);
-//        backLeftSwivel.set(turnSpeed);
-//        backRightSwivel.set(turnSpeed);
+        frontLeftDrive.set(driveSpeed * speedDampen);
+        frontRightDrive.set(driveSpeed * speedDampen);
+        backLeftDrive.set(driveSpeed * speedDampen);
+        backRightDrive.set(driveSpeed * speedDampen);
+
+        setAllWheelPositions((int) turnPosition);
     }
 
-    public void setDriveSpeedSupplier(DoubleSupplier driveSpeedSupplier) {
-        this.driveSpeedSupplier = driveSpeedSupplier;
-    }
-
-    public void setTurnSpeedSupplier(DoubleSupplier turnSpeedSupplier) {
-        this.turnSpeedSupplier = turnSpeedSupplier;
+    public void stopWheels() {
+        frontLeftSwivel.set(0);
+        frontRightSwivel.set(0);
+        backLeftSwivel.set(0);
+        backRightSwivel.set(0);
     }
 
     public void setAllWheelPositions(int targetPosition) {
@@ -98,14 +97,35 @@ public class Drive extends SubsystemBase {
 
     public void setWheelPosition(StormTalon talon, StormSpark swivel, int targetPosition) {
         int error = targetPosition - talon.getPosition();
-        double Kp = 0.00025;
-        double tolerance = 4;
-
-        if ( abs(error) > tolerance) {
+        double Kp = 0.0005;
+        double tolerance = 0.01;
+        if ( abs(error / 4096.) > tolerance) {
             swivel.set(-Kp * error);
+            talon.atHome = false;
            // swivel.set(-0.1 * signum(error));
         } else {
             swivel.set(0);
-      }
+            talon.atHome = true;
+        }
+    }
+
+    public boolean isHome() {
+        return frontLeftTalon.atHome &&
+                frontRightTalon.atHome &&
+                backLeftTalon.atHome &&
+                backRightTalon.atHome;
+    }
+
+    /**
+     *
+     * @return frontLeft, frontRight, backLeft, backRight
+     */
+    public int[] getWheelPositions() {
+        return new int[] {
+                frontLeftTalon.getPosition(),
+                frontRightTalon.getPosition(),
+                backLeftTalon.getPosition(),
+                backRightTalon.getPosition()
+        };
     }
 }

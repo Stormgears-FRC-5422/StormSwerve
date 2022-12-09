@@ -7,6 +7,7 @@ public class StormTalon extends WPI_TalonSRX {
   private double scale = 1.0;
   private int offset = 0;
   private int timeoutMs = 15;
+  public boolean atHome = false;
 
   public StormTalon(int deviceID) {
     super(deviceID);

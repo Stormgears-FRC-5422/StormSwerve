@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.DriveCommand;
+import frc.robot.commands.HomeWheels;
 import frc.robot.subsystems.Drive;
 import frc.utils.joysticks.StormLogitechController;
 
@@ -20,12 +23,19 @@ import frc.utils.joysticks.StormLogitechController;
 public class RobotContainer {
 
   private final StormLogitechController logitechController = new StormLogitechController(Constants.logitechControllerPort);
+  private final JoystickButton homeButton = new JoystickButton(logitechController, 1);
+
   private final Drive drive = new Drive();
+
+  private final HomeWheels homeWheels = new HomeWheels(drive);
+  private final DriveCommand driveCommand = new DriveCommand(drive, logitechController::getYAxis, logitechController::getZAxis);
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the button bindings
     configureButtonBindings();
+
+    drive.setDefaultCommand(driveCommand);
   }
 
   /**
@@ -35,8 +45,7 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    drive.setDriveSpeedSupplier(logitechController::getYAxis);
-    drive.setTurnSpeedSupplier(logitechController::getXAxis);
+    homeButton.whenPressed(homeWheels);
   }
 
   /**
@@ -47,9 +56,5 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
     return new RunCommand(() -> System.out.println("This is Auto --------"));
-  }
-
-  public void homeAll() {
-    drive.setAllWheelPositions(0);
   }
 }
