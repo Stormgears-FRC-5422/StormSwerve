@@ -11,6 +11,7 @@ public class DriveCommand extends CommandBase {
     private DoubleSupplier turnSpeedSupplier;
     private Drive drive;
     private double turnPositionCount = 0;
+    private double turnPositionIncrement = 50;
 
     public DriveCommand(Drive drive, DoubleSupplier driveSpeedSupplier, DoubleSupplier turnSpeedSupplier) {
         this.drive = drive;
@@ -28,7 +29,7 @@ public class DriveCommand extends CommandBase {
 
     public void execute() {
         drive.setDriveSpeed(driveSpeedSupplier.getAsDouble());
-        turnPositionCount += turnSpeedSupplier.getAsDouble() * 50;
+        turnPositionCount += turnSpeedSupplier.getAsDouble() * turnPositionIncrement;
         drive.setTurnPosition(turnPositionCount);
     }
 }
