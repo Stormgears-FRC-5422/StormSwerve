@@ -50,6 +50,11 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
           Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
 
+  // TODO (Darren). From the WPI docs,
+  //    The locations for the modules must be relative to the center of the robot.
+  //    Positive x values represent moving toward the front of the robot whereas
+  //    positive y values represent moving toward the left of the robot.
+  // OK. So doesn't that mean the X value should be related to the length, not the width, of the robot?
   private final SwerveDriveKinematics m_kinematics = new SwerveDriveKinematics(
           // Front left
           new Translation2d(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0),
