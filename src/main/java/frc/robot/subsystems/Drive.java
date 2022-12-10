@@ -8,9 +8,6 @@ import frc.utils.motorcontrol.StormTalon;
 import static frc.robot.Constants.*;
 import static java.lang.Math.*;
 
-
-import java.util.function.DoubleSupplier;
-
 public class Drive extends SubsystemBase {
     private final StormSpark frontLeftDrive;
     private final StormSpark frontRightDrive;
@@ -58,10 +55,10 @@ public class Drive extends SubsystemBase {
         backLeftTalon = new StormTalon(backLeftTalonID);
         backRightTalon = new StormTalon(backRightTalonID);
 
-        frontLeftTalon.setOffset(frontLeftOffset);
-        frontRightTalon.setOffset(frontRightOffset);
-        backLeftTalon.setOffset(backLeftOffset);
-        backRightTalon.setOffset(backRightOffset);
+        frontLeftTalon.setOffset(frontLeftOffsetTicks);
+        frontRightTalon.setOffset(frontRightOffsetTicks);
+        backLeftTalon.setOffset(backLeftOffsetTicks);
+        backRightTalon.setOffset(backRightOffsetTicks);
     }
 
     @Override
