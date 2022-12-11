@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.HomeWheels;
+import frc.robot.commands.TurnCommand;
 import frc.robot.subsystems.Drive;
 import frc.utils.joysticks.StormLogitechController;
 
@@ -24,11 +25,15 @@ public class RobotContainer {
 
   private final StormLogitechController logitechController = new StormLogitechController(Constants.logitechControllerPort);
   private final JoystickButton homeButton = new JoystickButton(logitechController, 1);
+  private final JoystickButton turnButton = new JoystickButton(logitechController, 2);
 
   private final Drive drive = new Drive();
 
   private final HomeWheels homeWheels = new HomeWheels(drive);
-  private final DriveCommand driveCommand = new DriveCommand(drive, logitechController::getYAxis, logitechController::getZAxis);
+  private final DriveCommand driveCommand = new DriveCommand(drive, logitechController::getXAxis, logitechController::getYAxis);
+  private final TurnCommand turnCommand = new TurnCommand(drive, logitechController::getZAxis);
+
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -46,6 +51,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     homeButton.whenPressed(homeWheels);
+    turnButton.whileHeld(turnCommand);
   }
 
   /**

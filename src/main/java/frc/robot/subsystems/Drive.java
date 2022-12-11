@@ -97,7 +97,8 @@ public class Drive extends SubsystemBase {
 
     public void setWheelPosition(StormTalon talon, StormSpark swivel, int targetPosition) {
         int error = targetPosition - talon.getPosition();
-        double Kp = 0.0005;
+        //double Kp = 0.0005;
+        double Kp = 0.0001;
         double tolerance = 0.01;
         if ( abs(error / 4096.) > tolerance) {
             swivel.set(-Kp * error);
@@ -107,6 +108,13 @@ public class Drive extends SubsystemBase {
             swivel.set(0);
             talon.atHome = true;
         }
+    }
+
+    public void circlePosition() {
+        setWheelPosition(frontLeftTalon, frontLeftSwivel,  3584);
+        setWheelPosition(frontRightTalon, frontRightSwivel, 2560);
+        setWheelPosition(backLeftTalon, backLeftSwivel, 512);
+        setWheelPosition(backRightTalon, backRightSwivel, 1536);
     }
 
     public boolean isHome() {
