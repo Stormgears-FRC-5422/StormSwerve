@@ -43,5 +43,15 @@ public final class Constants {
     public static final int frontRightOffset = StormProp.getInt("frontRightOffset",0);
     public static final int backLeftOffset = StormProp.getInt("backLeftOffset",0);
     public static final int backRightOffset = StormProp.getInt("backRightOffset",0);
+    public static final double WIDTH = StormProp.getNumber("RobotWidth", 0.3);
+    public static final double LENGTH = StormProp.getNumber("RobotLength", 0.3);
+    public static final double kWheelDiameter = StormProp.getNumber("WheelDiameter", 0.2);
+    public static final double kSwivelMotorGearRatio = StormProp.getNumber("SwivelMotorGearRatio", 10.);
+    public static final double kDriveMotorGearRatio = StormProp.getNumber("DriveMotorGearRatio", 10.);
+    public static final double kSwivelP = StormProp.getNumber("SwivelP", 0.1);
+    public static final double kSwivelI = StormProp.getNumber("SwivelI", 0.);
+    public static final double kSwivelD = StormProp.getNumber("SwivelD", 0.);
+    public static final double kMaxVelocity = StormProp.getNumber("MaxVelocity", 1.);
+    public static final double kMaxAngularVelocity = StormProp.getNumber("MaxAngularVelocity", 1.);
 }
 
