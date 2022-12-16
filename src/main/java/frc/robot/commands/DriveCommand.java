@@ -14,6 +14,7 @@ public class DriveCommand extends CommandBase {
 //    private double turnPositionCount = 0;
     private DoubleSupplier xSupplier;
     private DoubleSupplier ySupplier;
+    private int wheelAngle;
 
     public DriveCommand(Drive drive, DoubleSupplier xSupplier, DoubleSupplier ySupplier) {
         this.drive = drive;
@@ -37,7 +38,7 @@ public class DriveCommand extends CommandBase {
         double speed = (x*x) + (y*y);
         drive.setDriveSpeed(Math.sqrt(speed));
 
-        int wheelAngle = calcWheelAngle(x, y);
+        calcWheelAngle(x, y);
         drive.setAllWheelPositions(wheelAngle);
         SmartDashboard.putNumber("X", x);
         SmartDashboard.putNumber("Y", y);
@@ -49,9 +50,11 @@ public class DriveCommand extends CommandBase {
 //        drive.setTurnPosition(turnPositionCount);
     }
 
-    private int calcWheelAngle(double x, double y) {
-        double theta = -Math.atan2(-x, y);
-        double wheelAngle = (int) ((theta/(2*Math.PI)) * 4096.);
-        return (int) ((wheelAngle % 4096 < 0)? wheelAngle+4096 : wheelAngle);
+    private void calcWheelAngle(double x, double y) {
+        if (x != 0 && y != 0) {
+            double theta = -Math.atan2(-x, y);
+            wheelAngle = (int) ((theta / (2 * Math.PI)) * 4096.);
+//            wheelAngle = (int) ((wheelAngle % 4096 < 0) ? wheelAngle + 4096 : wheelAngle);
+        }
     }
 }

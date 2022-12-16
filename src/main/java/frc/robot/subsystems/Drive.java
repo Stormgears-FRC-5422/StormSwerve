@@ -97,8 +97,9 @@ public class Drive extends SubsystemBase {
 
     public void setWheelPosition(StormTalon talon, StormSpark swivel, int targetPosition) {
         int error = targetPosition - talon.getPosition();
+//        int optimizationSign = (error <= 2048)? 1 : -1;
         //double Kp = 0.0005;
-        double Kp = 0.0001;
+        double Kp = 0.0002;
         double tolerance = 0.01;
         if ( abs(error / 4096.) > tolerance) {
             swivel.set(-Kp * error);
