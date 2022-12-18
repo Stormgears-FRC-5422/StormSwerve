@@ -13,6 +13,7 @@ import frc.robot.commands.DriveCommand;
 import frc.robot.commands.HomeWheels;
 import frc.robot.commands.TurnCommand;
 import frc.robot.subsystems.Drive;
+import frc.robot.subsystems.NavX;
 import frc.utils.joysticks.StormLogitechController;
 
 /**
@@ -25,11 +26,13 @@ public class RobotContainer {
 
   private final StormLogitechController logitechController = new StormLogitechController(Constants.logitechControllerPort);
   private final JoystickButton homeButton = new JoystickButton(logitechController, 1);
-  private final JoystickButton turnButton = new JoystickButton(logitechController, 2);
+  //private final JoystickButton turnButton = new JoystickButton(logitechController, 2);
 
+  //create subsytems here
   private final Drive drive = new Drive();
+  private final NavX navX = new NavX();
 
-  private final HomeWheels homeWheels = new HomeWheels(drive);
+ // private final HomeWheels homeWheels = new HomeWheels(drive);
   private final DriveCommand driveCommand = new DriveCommand(drive, logitechController::getXAxis, logitechController::getYAxis);
   private final TurnCommand turnCommand = new TurnCommand(drive, logitechController::getZAxis);
 
@@ -40,7 +43,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    drive.setDefaultCommand(driveCommand);
+    //drive.setDefaultCommand(driveCommand);
+    drive.setDefaultCommand(turnCommand);
   }
 
   /**
@@ -50,8 +54,8 @@ public class RobotContainer {
    * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    homeButton.whenPressed(homeWheels);
-//    turnButton.whileHeld(turnCommand);
+    //homeButton.whenPressed(homeWheels);
+    //turnButton.whileHeld(turnCommand);
   }
 
   /**

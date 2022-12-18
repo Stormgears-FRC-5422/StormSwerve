@@ -43,5 +43,7 @@ public final class Constants {
     public static final int frontRightOffset = StormProp.getInt("frontRightOffset",0);
     public static final int backLeftOffset = StormProp.getInt("backLeftOffset",0);
     public static final int backRightOffset = StormProp.getInt("backRightOffset",0);
+
+    public static final double kNavXGyroScaleFactor = 1;
 }
 

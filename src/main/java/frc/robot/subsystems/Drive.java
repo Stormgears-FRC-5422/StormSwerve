@@ -40,6 +40,8 @@ public class Drive extends SubsystemBase {
 
     private double turnPosition;
 
+
+
     public Drive() {
         System.out.println("Drive----------------------------");
 
@@ -72,6 +74,7 @@ public class Drive extends SubsystemBase {
         SmartDashboard.putNumber("FR Encoder", frontRightTalon.getPosition());
         SmartDashboard.putNumber("BL Encoder", backLeftTalon.getPosition());
         SmartDashboard.putNumber("BR Encoder", backRightTalon.getPosition());
+        SmartDashboard.putNumber("Drive Speed", driveSpeed);
 
         frontLeftDrive.set(driveSpeed * speedDampen);
         frontRightDrive.set(driveSpeed * speedDampen);
@@ -137,4 +140,6 @@ public class Drive extends SubsystemBase {
                 backRightTalon.getPosition()
         };
     }
+
+
 }

@@ -43,7 +43,7 @@ public class DriveCommand extends CommandBase {
         SmartDashboard.putNumber("X", x);
         SmartDashboard.putNumber("Y", y);
         SmartDashboard.putNumber("wheelAngle", wheelAngle);
-//        double driveSpeed = driveSpeedSupplier.getAsDouble();
+//        double driveSpeed = dr5iveSpeedSupplier.getAsDouble();
 //        double turnSpeed = turnSpeedSupplier.getAsDouble();
 //        drive.setDriveSpeed(driveSpeed * Math.abs(driveSpeed));
 //        turnPositionCount += (turnSpeed * Math.abs(turnSpeed) * 50);
