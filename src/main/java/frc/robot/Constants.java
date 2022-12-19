@@ -46,8 +46,8 @@ public final class Constants {
     public static final int backRightOffsetTicks = StormProp.getInt("backRightOffsetTicks",0);
 
     public static final String kMK4iModuleKind = StormProp.getString("mk4iModuleKind", "");
-    public static final double DRIVETRAIN_TRACKWIDTH_METERS = StormProp.getNumber("drivetrainTrackwidthMeters", 0);
-    public static final double DRIVETRAIN_WHEELBASE_METERS = StormProp.getNumber("drivetrainWheelbaseMeters", 0);
+    public static final double DRIVETRAIN_TRACKWIDTH_METERS = StormProp.getNumber("drivetrainTrackwidthMeters", 0.);
+    public static final double DRIVETRAIN_WHEELBASE_METERS = StormProp.getNumber("drivetrainWheelbaseMeters", 0.);
 
 
     // Map to SDS implementation constants
