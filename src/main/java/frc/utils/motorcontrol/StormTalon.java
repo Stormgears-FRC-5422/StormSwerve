@@ -22,7 +22,7 @@ public class StormTalon extends WPI_TalonSRX {
     return this.getSensorCollection().getPulseWidthPosition() - offset;
   }
 
-  public int getPosition() {
+  public int getPositionTicks() {
     return this.getSensorCollection().getQuadraturePosition() - offset;
   }
 

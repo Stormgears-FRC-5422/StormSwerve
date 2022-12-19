@@ -39,44 +39,35 @@ public final class Constants {
     public static final int backLeftTalonID = StormProp.getInt("backLeftTalonID",0);
     public static final int backRightTalonID = StormProp.getInt("backRightTalonID",0);
 
-    public static final int ticksPerRotation = StormProp.getInt("ticksPerRotation",0);
+    public static final int kTicksPerRotation = StormProp.getInt("ticksPerRotation",0);
     public static final int frontLeftOffsetTicks = StormProp.getInt("frontLeftOffsetTicks",0);
     public static final int frontRightOffsetTicks = StormProp.getInt("frontRightOffsetTicks",0);
     public static final int backLeftOffsetTicks = StormProp.getInt("backLeftOffsetTicks",0);
     public static final int backRightOffsetTicks = StormProp.getInt("backRightOffsetTicks",0);
 
-    /**
-     * The left-to-right distance between the drivetrain wheels
-     *
-     * Should be measured from center to center.
-     */
-    public static final double DRIVETRAIN_TRACKWIDTH_METERS = 1.0; // FIXME Measure and set trackwidth
-    /**
-     * The front-to-back distance between the drivetrain wheels.
-     *
-     * Should be measured from center to center.
-     */
-    public static final double DRIVETRAIN_WHEELBASE_METERS = 1.0; // FIXME Measure and set wheelbase
+    public static final String kMK4iModuleKind = StormProp.getString("mk4iModuleKind", "");
+    public static final double DRIVETRAIN_TRACKWIDTH_METERS = StormProp.getNumber("drivetrainTrackwidthMeters", 0);
+    public static final double DRIVETRAIN_WHEELBASE_METERS = StormProp.getNumber("drivetrainWheelbaseMeters", 0);
 
-    public static final int DRIVETRAIN_PIGEON_ID = 0; // FIXME Set Pigeon ID
 
+    // Map to SDS implementation constants
     public static final int FRONT_LEFT_MODULE_DRIVE_MOTOR = frontLeftDriveID;
     public static final int FRONT_LEFT_MODULE_STEER_MOTOR = frontLeftSwivelID;
     public static final int FRONT_LEFT_MODULE_STEER_ENCODER = frontLeftTalonID;
-    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(360.0 * frontLeftOffsetTicks / ticksPerRotation);
+    public static final double FRONT_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(360.0 * frontLeftOffsetTicks / kTicksPerRotation);
 
     public static final int FRONT_RIGHT_MODULE_DRIVE_MOTOR = frontRightDriveID;
     public static final int FRONT_RIGHT_MODULE_STEER_MOTOR = frontRightSwivelID;
     public static final int FRONT_RIGHT_MODULE_STEER_ENCODER = frontRightTalonID;
-    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(360.0 * frontRightOffsetTicks / ticksPerRotation);
+    public static final double FRONT_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(360.0 * frontRightOffsetTicks / kTicksPerRotation);
 
     public static final int BACK_LEFT_MODULE_DRIVE_MOTOR = backLeftDriveID;
     public static final int BACK_LEFT_MODULE_STEER_MOTOR = backLeftSwivelID;
     public static final int BACK_LEFT_MODULE_STEER_ENCODER = backLeftTalonID;
-    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(360.0 * backLeftOffsetTicks / ticksPerRotation);
+    public static final double BACK_LEFT_MODULE_STEER_OFFSET = -Math.toRadians(360.0 * backLeftOffsetTicks / kTicksPerRotation);
 
     public static final int BACK_RIGHT_MODULE_DRIVE_MOTOR = backRightDriveID;
     public static final int BACK_RIGHT_MODULE_STEER_MOTOR = backRightSwivelID;
     public static final int BACK_RIGHT_MODULE_STEER_ENCODER = backRightTalonID;
-    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(360.0 * backRightOffsetTicks / ticksPerRotation);
+    public static final double BACK_RIGHT_MODULE_STEER_OFFSET = -Math.toRadians(360.0 * backRightOffsetTicks / kTicksPerRotation);
 }

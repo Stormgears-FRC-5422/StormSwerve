@@ -65,10 +65,10 @@ public class Drive extends SubsystemBase {
     public void periodic() {
         //System.out.println("frontLeftTalon: " + getPosition(frontLeftTalon));
 
-        SmartDashboard.putNumber("FL Encoder", frontLeftTalon.getPosition());
-        SmartDashboard.putNumber("FR Encoder", frontRightTalon.getPosition());
-        SmartDashboard.putNumber("BL Encoder", backLeftTalon.getPosition());
-        SmartDashboard.putNumber("BR Encoder", backRightTalon.getPosition());
+        SmartDashboard.putNumber("FL Encoder", frontLeftTalon.getPositionTicks());
+        SmartDashboard.putNumber("FR Encoder", frontRightTalon.getPositionTicks());
+        SmartDashboard.putNumber("BL Encoder", backLeftTalon.getPositionTicks());
+        SmartDashboard.putNumber("BR Encoder", backRightTalon.getPositionTicks());
 
         frontLeftDrive.set(driveSpeed * speedDampen);
         frontRightDrive.set(driveSpeed * speedDampen);
@@ -93,7 +93,7 @@ public class Drive extends SubsystemBase {
     }
 
     public void setWheelPosition(StormTalon talon, StormSpark swivel, int targetPosition) {
-        int error = targetPosition - talon.getPosition();
+        int error = targetPosition - talon.getPositionTicks();
         double Kp = 0.0005;
         double tolerance = 0.01;
         if ( abs(error / 4096.) > tolerance) {
@@ -119,10 +119,10 @@ public class Drive extends SubsystemBase {
      */
     public int[] getWheelPositions() {
         return new int[] {
-                frontLeftTalon.getPosition(),
-                frontRightTalon.getPosition(),
-                backLeftTalon.getPosition(),
-                backRightTalon.getPosition()
+                frontLeftTalon.getPositionTicks(),
+                frontRightTalon.getPositionTicks(),
+                backLeftTalon.getPositionTicks(),
+                backRightTalon.getPositionTicks()
         };
     }
 }
