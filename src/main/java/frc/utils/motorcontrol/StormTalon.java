@@ -11,7 +11,8 @@ public class StormTalon extends WPI_TalonSRX {
 
   public StormTalon(int deviceID) {
     super(deviceID);
-    this.getSensorCollection().setQuadraturePosition(getPWMPosition(), timeoutMs);
+// TODO put this back!
+//    this.getSensorCollection().setQuadraturePosition(getPWMPosition(), timeoutMs);
   }
 
   public void setOffset(int offset) {

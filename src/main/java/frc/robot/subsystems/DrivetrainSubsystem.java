@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.swervedrivespecialties.swervelib.ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -39,17 +40,19 @@ public class DrivetrainSubsystem extends SubsystemBase {
    * <p>
    * This is a measure of how fast the robot should be able to drive in a straight line.
    */
-  public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
-          SdsModuleConfigurations.MK3_STANDARD.getDriveReduction() *
-          SdsModuleConfigurations.MK3_STANDARD.getWheelDiameter() * Math.PI;
+//  public static final double MAX_VELOCITY_METERS_PER_SECOND = 6380.0 / 60.0 *
+//          SdsModuleConfigurations.MK3_STANDARD.getDriveReduction() *
+//          SdsModuleConfigurations.MK3_STANDARD.getWheelDiameter() * Math.PI;
+   public final double MAX_VELOCITY_METERS_PER_SECOND;
   /**
    * The maximum angular velocity of the robot in radians per second.
    * <p>
    * This is a measure of how fast the robot can rotate in place.
    */
   // Here we calculate the theoretical maximum angular velocity. You can also replace this with a measured amount.
-  public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
-          Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
+//  public static final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
+//          Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
+   public final double MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND;
 
   // TODO (Darren). From the WPI docs,
   //    The locations for the modules must be relative to the center of the robot.
@@ -84,18 +87,31 @@ public class DrivetrainSubsystem extends SubsystemBase {
     ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
     StormSwerveMk4ProtoHelper.GearRatio theGearRatio;
+    ModuleConfiguration moduleConfiguration;
+
     switch(kMK4iModuleKind) {
       case "L1":
         theGearRatio = StormSwerveMk4ProtoHelper.GearRatio.L1;
+        moduleConfiguration = SdsModuleConfigurations.MK4I_L1;
         break;
       case "L2":
         theGearRatio = StormSwerveMk4ProtoHelper.GearRatio.L2;
+        moduleConfiguration = SdsModuleConfigurations.MK4I_L2;
         break;
       case "L3":
       default:
         theGearRatio = StormSwerveMk4ProtoHelper.GearRatio.L3;  // Have to pick something
-
+        moduleConfiguration = SdsModuleConfigurations.MK4I_L3;
     };
+
+    // Derived from module details
+//    this.MAX_VELOCITY_METERS_PER_SECOND= 6380.0 / 60.0 *
+    this.MAX_VELOCITY_METERS_PER_SECOND= 600.0 / 60.0 *
+            moduleConfiguration.getDriveReduction() *
+            moduleConfiguration.getWheelDiameter() * Math.PI;
+    this.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND = MAX_VELOCITY_METERS_PER_SECOND /
+            Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
+
 
     m_frontLeftModule = StormSwerveMk4ProtoHelper.createNeo(
             // This parameter is optional, but will allow you to see the current state of the module on the dashboard.

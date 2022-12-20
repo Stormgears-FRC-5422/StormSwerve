@@ -5,7 +5,7 @@ import com.ctre.phoenix.sensors.CANCoderConfiguration;
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 import frc.utils.motorcontrol.StormTalon;
 
-import static frc.robot.Constants.kTicksPerRotation;
+import static frc.robot.Constants.kSwivelEncoderTicksPerRotation;
 
 public class StormMagCoder {
     private final int id;
@@ -30,7 +30,7 @@ public class StormMagCoder {
     }
 
     public double getAbsolutePositionDegrees() {
-        return 360. * ((double)talon.getPositionTicks() / kTicksPerRotation);
+        return 360. * ((double)talon.getPositionTicks() / kSwivelEncoderTicksPerRotation);
     }
 
 }
