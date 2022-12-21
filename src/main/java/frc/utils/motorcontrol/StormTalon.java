@@ -5,21 +5,21 @@ import edu.wpi.first.math.MathUtil;
 
 public class StormTalon extends WPI_TalonSRX {
   private double scale = 1.0;
+  // Offset in ticks
   private int offset = 0;
   private int timeoutMs = 15;
   public boolean atHome = false;
 
   public StormTalon(int deviceID) {
     super(deviceID);
-// TODO put this back!
-//    this.getSensorCollection().setQuadraturePosition(getPWMPosition(), timeoutMs);
+    this.getSensorCollection().setQuadraturePosition(getPWMPositionTicks(), timeoutMs);
   }
 
   public void setOffset(int offset) {
     this.offset = offset;
   }
 
-  public int getPWMPosition() {
+  public int getPWMPositionTicks() {
     return this.getSensorCollection().getPulseWidthPosition() - offset;
   }
 

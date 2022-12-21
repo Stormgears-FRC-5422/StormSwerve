@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -27,6 +28,10 @@ public class DefaultDriveCommand extends CommandBase {
         this.m_rotationSupplier = rotationSupplier;
 
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
+        tab.getLayout("Input signals", BuiltInLayouts.kList)
+                .withSize(2, 4)
+                .withPosition(4, 0);
+
         tab.addNumber("tX", this.m_translationXSupplier);
         tab.addNumber("tY", this.m_translationYSupplier);
         tab.addNumber("rot", this.m_rotationSupplier);

@@ -10,25 +10,19 @@ import com.swervedrivespecialties.swervelib.ctre.CtreUtils;
 
 import com.ctre.phoenix.motorcontrol.StatusFrame;
 
-// TODO - Annoying that I needed to reimplement the entire class since there are no accessors for the private members.
-// Was this really necessary?
 public class StormMagCoderFactoryBuilder extends CanCoderFactoryBuilder {
-    private StormMagCoderFactoryBuilder.Direction direction;
-    private int periodMilliseconds;
+    // Need these variables since I can't access the private parent variables
+    private CanCoderFactoryBuilder.Direction thisDirection;
+    private int thisPeriodMilliseconds;
 
-    public StormMagCoderFactoryBuilder() {
-        this.direction = StormMagCoderFactoryBuilder.Direction.COUNTER_CLOCKWISE;
-        this.periodMilliseconds = 10;
+    @Override
+    public CanCoderFactoryBuilder withReadingUpdatePeriod(int periodMilliseconds) {
+        return super.withReadingUpdatePeriod(this.thisPeriodMilliseconds = periodMilliseconds);
     }
 
-    public StormMagCoderFactoryBuilder withReadingUpdatePeriod(int periodMilliseconds) {
-        this.periodMilliseconds = periodMilliseconds;
-        return this;
-    }
-
-    public StormMagCoderFactoryBuilder withDirection(StormMagCoderFactoryBuilder.Direction direction) {
-        this.direction = direction;
-        return this;
+    @Override
+    public CanCoderFactoryBuilder withDirection(CanCoderFactoryBuilder.Direction direction) {
+        return super.withDirection(this.thisDirection = direction);
     }
 
     public AbsoluteEncoderFactory<CanCoderAbsoluteConfiguration> build() {
@@ -36,20 +30,12 @@ public class StormMagCoderFactoryBuilder extends CanCoderFactoryBuilder {
             CANCoderConfiguration config = new CANCoderConfiguration();
             config.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
             config.magnetOffsetDegrees = Math.toDegrees(configuration.getOffset());
-            config.sensorDirection = this.direction == StormMagCoderFactoryBuilder.Direction.CLOCKWISE;
-            StormMagCoder encoder = new StormMagCoder(configuration.getId());
+            config.sensorDirection = this.thisDirection == CanCoderFactoryBuilder.Direction.CLOCKWISE;
+            StormMagCoder encoder = new StormMagCoder(configuration.getId(), (int)configuration.getOffset());
             CtreUtils.checkCtreError(encoder.configAllSettings(config, 250), "Failed to configure CANCoder");
-            CtreUtils.checkCtreError(encoder.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, this.periodMilliseconds, 250), "Failed to configure CANCoder update rate");
+            CtreUtils.checkCtreError(encoder.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, this.thisPeriodMilliseconds, 250), "Failed to configure CANCoder update rate");
             return new StormMagCoderFactoryBuilder.EncoderImplementation(encoder);
         };
-    }
-
-    public enum Direction {
-        CLOCKWISE,
-        COUNTER_CLOCKWISE;
-
-        Direction() {
-        }
     }
 
     private static class EncoderImplementation implements AbsoluteEncoder {
