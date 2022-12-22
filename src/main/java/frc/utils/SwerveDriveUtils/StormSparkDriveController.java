@@ -4,7 +4,9 @@ import frc.robot.Constants;
 import frc.utils.motorcontrol.StormSpark;
 
 public class StormSparkDriveController implements IDriveController {
+
     private final StormSpark motor;
+
     public StormSparkDriveController(StormSpark motor) {
         this.motor = motor;
         //to get actual velocity and position

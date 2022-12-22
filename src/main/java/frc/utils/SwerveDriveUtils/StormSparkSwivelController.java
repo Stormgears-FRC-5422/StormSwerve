@@ -1,23 +1,28 @@
 package frc.utils.SwerveDriveUtils;
 
-import edu.wpi.first.math.controller.PIDController;
-import frc.robot.Constants;
+import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkMaxPIDController;
 import frc.utils.motorcontrol.StormSpark;
 
 public class StormSparkSwivelController implements ISwivelController {
+
     private final StormSpark motor;
-    private PIDController controller;
+    private final RelativeEncoder motorEncoder;
+    private SparkMaxPIDController controller;
     private final IAbsoluteEncoder encoder;
     private double referenceAngle;
-    private double angle;
+
     public StormSparkSwivelController(StormSpark motor, IAbsoluteEncoder encoder) {
         this.motor = motor;
-        controller.setP(Constants.kSwivelP);
-        controller.setI(Constants.kSwivelI);
-        controller.setD(Constants.kSwivelD);
+        this.motorEncoder = motor.getEncoder();
+        this.controller = motor.getPIDController();
         this.encoder = encoder;
     }
 
+    public void resetEncoder() {
+        motorEncoder.setPosition(encoder.getAbsoluteAngle());
+    }
 
     @Override
     public double getReferenceAngle() {
@@ -28,12 +33,13 @@ public class StormSparkSwivelController implements ISwivelController {
     public void setAngle(double referenceAngle) {
         this.referenceAngle = referenceAngle;
         //TODO: do we add a ff?????
-        double pidout = controller.calculate(getCurrentAngle(), referenceAngle);
-        motor.set(pidout);
+        controller.setReference(referenceAngle, CANSparkMax.ControlType.kPosition);
     }
 
     @Override
     public double getCurrentAngle() {
-        return encoder.getAbsoluteAngle();
+        // get current encoder position and convert to (0, 360)
+        double modAngle = motorEncoder.getPosition() % 360;
+        return (modAngle < 0.)? modAngle + 360 : modAngle;
     }
 }
