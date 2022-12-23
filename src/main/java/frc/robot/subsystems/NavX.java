@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Constants;
 
 
@@ -12,7 +13,7 @@ public class NavX extends SubsystemBase {
   public NavX() {
     ahrs = new AHRS();
     ahrs.enableLogging(true);
-    
+
   }
 
   @Override

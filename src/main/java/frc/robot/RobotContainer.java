@@ -26,7 +26,7 @@ public class RobotContainer {
 
   private final StormLogitechController logitechController = new StormLogitechController(Constants.logitechControllerPort);
   private final JoystickButton homeButton = new JoystickButton(logitechController, 1);
-  //private final JoystickButton turnButton = new JoystickButton(logitechController, 2);
+  private final JoystickButton turnButton = new JoystickButton(logitechController, 2);
 
   //create subsytems here
   private final Drive drive = new Drive();
@@ -43,8 +43,8 @@ public class RobotContainer {
     // Configure the button bindings
     configureButtonBindings();
 
-    //drive.setDefaultCommand(driveCommand);
-    drive.setDefaultCommand(turnCommand);
+    drive.setDefaultCommand(driveCommand);
+//    drive.setDefaultCommand(turnCommand);
   }
 
   /**
@@ -55,7 +55,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //homeButton.whenPressed(homeWheels);
-    //turnButton.whileHeld(turnCommand);
+    turnButton.whileHeld(turnCommand);
   }
 
   /**

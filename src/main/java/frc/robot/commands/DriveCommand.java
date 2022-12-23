@@ -34,6 +34,8 @@ public class DriveCommand extends CommandBase {
     public void execute() {
         double x = xSupplier.getAsDouble();
         double y = ySupplier.getAsDouble();
+        SmartDashboard.putNumber("Controller X", x);
+        SmartDashboard.putNumber("Controller Y", y);
 
         double speed = (x*x) + (y*y);
         drive.setDriveSpeed(Math.sqrt(speed));
@@ -51,10 +53,10 @@ public class DriveCommand extends CommandBase {
     }
 
     private void calcWheelAngle(double x, double y) {
-        if (x != 0 && y != 0) {
-            double theta = -Math.atan2(-x, y);
-            wheelAngle = (int) ((theta / (2 * Math.PI)) * 4096.);
+        if (x == 0 && y == 0) return;
+
+        double theta = -Math.atan2(x, y);
+        wheelAngle = (int) ((theta / (2 * Math.PI)) * 4096.);
 //            wheelAngle = (int) ((wheelAngle % 4096 < 0) ? wheelAngle + 4096 : wheelAngle);
-        }
     }
 }

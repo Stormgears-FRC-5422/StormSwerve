@@ -8,7 +8,6 @@ import frc.utils.motorcontrol.StormTalon;
 import static frc.robot.Constants.*;
 import static java.lang.Math.*;
 
-
 import java.util.function.DoubleSupplier;
 
 public class Drive extends SubsystemBase {
@@ -28,7 +27,7 @@ public class Drive extends SubsystemBase {
     private final StormTalon backRightTalon;
 
     private double driveSpeed;
-    private final double speedDampen = 0.35;
+    private final double speedDampen = 0.2;
 
     public void setDriveSpeed(double driveSpeed) {
         this.driveSpeed = driveSpeed;
@@ -39,8 +38,6 @@ public class Drive extends SubsystemBase {
     }
 
     private double turnPosition;
-
-
 
     public Drive() {
         System.out.println("Drive----------------------------");
