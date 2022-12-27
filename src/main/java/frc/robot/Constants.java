@@ -23,7 +23,7 @@ public final class Constants {
     public static final double kSparkMaxCurrentLimit = StormProp.getNumber("SparkMaxCurrentLimit", 35.0);
     public static final double kSparkMaxCurrentLimit550 = StormProp.getNumber("SparkMax550CurrentLimit", 25.0);
 
-    public static final double kSparkMaxFreeSpeedRPM = StormProp.getNumber("sparkMaxFreeSpeedRPM", 0.0);
+    public static final double kSparkMaxFreeSpeedRPM = StormProp.getNumber("SparkMaxFreeSpeedRPM", 0.0);
     public static final double kDriveSpeedScale = StormProp.getNumber("driveSpeedScale", 0.0);
 
     public static final int frontLeftDriveID = StormProp.getInt("frontLeftDriveID", 0);

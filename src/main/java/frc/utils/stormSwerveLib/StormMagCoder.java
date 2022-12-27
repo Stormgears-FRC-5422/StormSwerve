@@ -10,9 +10,9 @@ import static frc.robot.Constants.kSwivelEncoderTicksPerRotation;
 public class StormMagCoder {
     private final StormTalon talon;
 
-    public StormMagCoder(int id, int offset) {
+    public StormMagCoder(int id, double offset) {
         this.talon = new StormTalon(id);
-        this.talon.setOffset(offset);
+        this.talon.setOffsetRadians(offset);
     }
 
     public ErrorCode configAllSettings(CANCoderConfiguration config, int i) {

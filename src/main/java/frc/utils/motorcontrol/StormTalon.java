@@ -3,6 +3,8 @@ package frc.utils.motorcontrol;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.math.MathUtil;
 
+import static frc.robot.Constants.*;
+
 public class StormTalon extends WPI_TalonSRX {
   private double scale = 1.0;
   // Offset in ticks
@@ -19,12 +21,16 @@ public class StormTalon extends WPI_TalonSRX {
     this.offset = offset;
   }
 
+  public void setOffsetRadians(double offset) {
+    setOffset( (int)Math.round(kSwivelEncoderTicksPerRotation * ( offset / (2 * Math.PI) ) ) );
+  }
+
   public int getPWMPositionTicks() {
-    return this.getSensorCollection().getPulseWidthPosition() - offset;
+    return this.getSensorCollection().getPulseWidthPosition() + offset;
   }
 
   public int getPositionTicks() {
-    return this.getSensorCollection().getQuadraturePosition() - offset;
+    return this.getSensorCollection().getQuadraturePosition() + offset;
   }
 
   @Override

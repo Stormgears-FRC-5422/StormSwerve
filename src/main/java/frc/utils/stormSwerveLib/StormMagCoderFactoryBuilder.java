@@ -31,7 +31,7 @@ public class StormMagCoderFactoryBuilder extends CanCoderFactoryBuilder {
             config.absoluteSensorRange = AbsoluteSensorRange.Unsigned_0_to_360;
             config.magnetOffsetDegrees = Math.toDegrees(configuration.getOffset());
             config.sensorDirection = this.thisDirection == CanCoderFactoryBuilder.Direction.CLOCKWISE;
-            StormMagCoder encoder = new StormMagCoder(configuration.getId(), (int)configuration.getOffset());
+            StormMagCoder encoder = new StormMagCoder(configuration.getId(), configuration.getOffset());
             CtreUtils.checkCtreError(encoder.configAllSettings(config, 250), "Failed to configure CANCoder");
             CtreUtils.checkCtreError(encoder.setStatusFramePeriod(StatusFrame.Status_2_Feedback0, this.thisPeriodMilliseconds, 250), "Failed to configure CANCoder update rate");
             return new StormMagCoderFactoryBuilder.EncoderImplementation(encoder);
