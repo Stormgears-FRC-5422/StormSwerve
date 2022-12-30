@@ -16,7 +16,7 @@ import frc.utils.joysticks.StormXboxController;
 //import frc.robot.commands.DriveCommand;
 //import frc.robot.commands.HomeWheels;
 //import frc.robot.subsystems.Drive;
-//import frc.utils.joysticks.StormLogitechController;
+import frc.utils.joysticks.StormLogitechController;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -27,16 +27,14 @@ import frc.utils.joysticks.StormXboxController;
 public class RobotContainer {
 //  // The robot's subsystems and commands are defined here...
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
-  private final StormXboxController m_controller = new StormXboxController(0);
+  // private final StormXboxController m_controller = new StormXboxController(0);
+
+  private final StormLogitechController m_Logitechcontroller = new StormLogitechController(1);
 
 //  From the original prototype
 //  private final StormLogitechController logitechController = new StormLogitechController(Constants.logitechControllerPort);
 //  private final JoystickButton homeButton = new JoystickButton(logitechController, 1);
-//
-//  private final Drive drive = new Drive();
-//
-//  private final HomeWheels homeWheels = new HomeWheels(drive);
-//  private final DriveCommand driveCommand = new DriveCommand(drive, logitechController::getYAxis, logitechController::getZAxis);
+
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -47,9 +45,9 @@ public class RobotContainer {
     // Right stick X axis -> rotation
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
             m_drivetrainSubsystem,
-            () -> -modifyAxis(m_controller.getLeftJoystickY() * m_drivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND),
-            () -> -modifyAxis(m_controller.getLeftJoystickX() * m_drivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND),
-            () -> -modifyAxis(m_controller.getRightJoystickX() * m_drivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
+            () -> -modifyAxis(m_Logitechcontroller.getYAxis() * m_drivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND),
+            () ->  modifyAxis(m_Logitechcontroller.getXAxis() * m_drivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND),
+            () -> -modifyAxis(m_Logitechcontroller.getZAxis() * 0.2 * m_drivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
     ));
 
 
