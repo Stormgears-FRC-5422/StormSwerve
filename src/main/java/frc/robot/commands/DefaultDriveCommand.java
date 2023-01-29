@@ -4,38 +4,45 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.DrivetrainSubsystem;
+import static frc.robot.Constants.kPercisionSpeedScale;
 
+import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 
 public class DefaultDriveCommand extends CommandBase {
+
     private final DrivetrainSubsystem m_drivetrainSubsystem;
 
     private final DoubleSupplier m_translationXSupplier;
     private final DoubleSupplier m_translationYSupplier;
     private final DoubleSupplier m_rotationSupplier;
+    private final BooleanSupplier m_fieldRelativeSupplier;
 
     public DefaultDriveCommand(DrivetrainSubsystem drivetrainSubsystem,
                                DoubleSupplier translationXSupplier,
                                DoubleSupplier translationYSupplier,
-                               DoubleSupplier rotationSupplier) {
+                               DoubleSupplier rotationSupplier,
+                               BooleanSupplier fieldRelativeSupplier) {
+
         this.m_drivetrainSubsystem = drivetrainSubsystem;
         this.m_translationXSupplier = translationXSupplier;
         this.m_translationYSupplier = translationYSupplier;
         this.m_rotationSupplier = rotationSupplier;
+        this.m_fieldRelativeSupplier = fieldRelativeSupplier;
 
         ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
-        tab.getLayout("Input signals", BuiltInLayouts.kList)
-                .withSize(2, 4)
-                .withPosition(4, 0);
-
-        tab.addNumber("tX", this.m_translationXSupplier);
-        tab.addNumber("tY", this.m_translationYSupplier);
-        tab.addNumber("rot", this.m_rotationSupplier);
-        tab.addNumber("gyro", ()->m_drivetrainSubsystem.getGyroscopeRotation().getDegrees());
+        ShuffleboardLayout layout = tab.getLayout("Input signals", BuiltInLayouts.kList)
+                .withSize(1, 4)
+                .withPosition(8, 0);
+        layout.addNumber("tX", this.m_translationXSupplier);
+        layout.addNumber("tY", this.m_translationYSupplier);
+        layout.addNumber("rot", this.m_rotationSupplier);
+        layout.addBoolean("notFieldRelative", this.m_fieldRelativeSupplier);
+        layout.addNumber("gyro", () -> m_drivetrainSubsystem.getGyroscopeRotation().getDegrees());
 
         addRequirements(drivetrainSubsystem);
     }
@@ -46,16 +53,26 @@ public class DefaultDriveCommand extends CommandBase {
         double m_tX = m_translationXSupplier.getAsDouble();
         double m_tY = m_translationYSupplier.getAsDouble();
         double m_rot = m_rotationSupplier.getAsDouble();
+        boolean m_fieldRelative = m_fieldRelativeSupplier.getAsBoolean();
         Rotation2d m_gyro = m_drivetrainSubsystem.getGyroscopeRotation();
 
-        m_drivetrainSubsystem.drive(
+        if (m_fieldRelative == false)
+            m_drivetrainSubsystem.drive(
                 ChassisSpeeds.fromFieldRelativeSpeeds(
                         m_tX,
                         m_tY,
                         m_rot,
                         m_gyro
                 )
-        );
+            );
+        else
+            m_drivetrainSubsystem.drive(
+                    new ChassisSpeeds(
+                            m_tX * kPercisionSpeedScale,
+                            m_tY * kPercisionSpeedScale,
+                            m_rot * kPercisionSpeedScale
+                    )
+            );
     }
 
     @Override

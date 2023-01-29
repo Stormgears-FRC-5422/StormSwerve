@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.swervedrivespecialties.swervelib.Mk4iSwerveModuleHelper;
 import com.swervedrivespecialties.swervelib.ModuleConfiguration;
 import com.swervedrivespecialties.swervelib.SdsModuleConfigurations;
 import com.swervedrivespecialties.swervelib.SwerveModule;
@@ -81,21 +82,22 @@ public class DrivetrainSubsystem extends SubsystemBase {
   public DrivetrainSubsystem() {
     ShuffleboardTab tab = Shuffleboard.getTab("Drivetrain");
 
-    StormSwerveMk4ProtoHelper.GearRatio theGearRatio;
+//    StormSwerveMk4ProtoHelper.GearRatio theGearRatio;
+    Mk4iSwerveModuleHelper.GearRatio theGearRatio;
     ModuleConfiguration moduleConfiguration;
 
     switch(kMK4iModuleKind) {
       case "L1":
-        theGearRatio = StormSwerveMk4ProtoHelper.GearRatio.L1;
+        theGearRatio = Mk4iSwerveModuleHelper.GearRatio.L1;
         moduleConfiguration = SdsModuleConfigurations.MK4I_L1;
         break;
       case "L2":
-        theGearRatio = StormSwerveMk4ProtoHelper.GearRatio.L2;
+        theGearRatio = Mk4iSwerveModuleHelper.GearRatio.L2;
         moduleConfiguration = SdsModuleConfigurations.MK4I_L2;
         break;
       case "L3":
       default:
-        theGearRatio = StormSwerveMk4ProtoHelper.GearRatio.L3;  // Have to pick something
+        theGearRatio = Mk4iSwerveModuleHelper.GearRatio.L3;  // Have to pick something
         moduleConfiguration = SdsModuleConfigurations.MK4I_L3;
     };
 
@@ -107,7 +109,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             Math.hypot(DRIVETRAIN_TRACKWIDTH_METERS / 2.0, DRIVETRAIN_WHEELBASE_METERS / 2.0);
 
 
-    m_frontLeftModule = StormSwerveMk4ProtoHelper.createNeo(
+    m_frontLeftModule = Mk4iSwerveModuleHelper.createNeo(
             // This parameter is optional, but will allow you to see the current state of the module on the dashboard.
             tab.getLayout("Front Left Module", BuiltInLayouts.kList)
                     .withSize(2, 4)
@@ -125,7 +127,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
     );
 
     // We will do the same for the other modules
-    m_frontRightModule = StormSwerveMk4ProtoHelper.createNeo(
+    m_frontRightModule = Mk4iSwerveModuleHelper.createNeo(
             tab.getLayout("Front Right Module", BuiltInLayouts.kList)
                     .withSize(2, 4)
                     .withPosition(2, 0),
@@ -136,7 +138,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             FRONT_RIGHT_MODULE_STEER_OFFSET
     );
 
-    m_backLeftModule = StormSwerveMk4ProtoHelper.createNeo(
+    m_backLeftModule = Mk4iSwerveModuleHelper.createNeo(
             tab.getLayout("Back Left Module", BuiltInLayouts.kList)
                     .withSize(2, 4)
                     .withPosition(4, 0),
@@ -147,7 +149,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
             BACK_LEFT_MODULE_STEER_OFFSET
     );
 
-    m_backRightModule = StormSwerveMk4ProtoHelper.createNeo(
+    m_backRightModule = Mk4iSwerveModuleHelper.createNeo(
             tab.getLayout("Back Right Module", BuiltInLayouts.kList)
                     .withSize(2, 4)
                     .withPosition(6, 0),
@@ -165,6 +167,7 @@ public class DrivetrainSubsystem extends SubsystemBase {
    */
   public void zeroGyroscope() {
     m_navx.zeroYaw();
+    System.out.println("Gyroscope zeroed to: " + getGyroscopeRotation().getDegrees());
   }
 
   public Rotation2d getGyroscopeRotation() {

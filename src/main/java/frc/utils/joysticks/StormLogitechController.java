@@ -33,4 +33,8 @@ public class StormLogitechController extends Joystick {
     public double getSliderAxis() {
         return (-applyNullZone(getRawAxis(sliderAxis)) + 1) / 2;
     }
+
+    public double getWPIX() {return -applyNullZone(getRawAxis(YAxis));}
+    public double getWPIY() {return -applyNullZone(getRawAxis(XAxis));}
+    public double getWPIRot() {return -applyNullZone(getRawAxis(ZAxis));}
 }

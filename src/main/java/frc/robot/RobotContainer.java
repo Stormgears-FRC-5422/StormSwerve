@@ -7,16 +7,19 @@ package frc.robot;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.DefaultDriveCommand;
 import frc.robot.subsystems.DrivetrainSubsystem;
-import frc.utils.joysticks.StormXboxController;
 
 //import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 //import frc.robot.commands.DriveCommand;
 //import frc.robot.commands.HomeWheels;
 //import frc.robot.subsystems.Drive;
 import frc.utils.joysticks.StormLogitechController;
+
+import static frc.robot.Constants.*;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -29,8 +32,8 @@ public class RobotContainer {
   private final DrivetrainSubsystem m_drivetrainSubsystem = new DrivetrainSubsystem();
   // private final StormXboxController m_controller = new StormXboxController(0);
 
-  private final StormLogitechController m_Logitechcontroller = new StormLogitechController(1);
-
+  private final StormLogitechController m_Logitechcontroller = new StormLogitechController(0);
+//    private final StormXboxController m_XboxController = new StormXboxController(1);
 //  From the original prototype
 //  private final StormLogitechController logitechController = new StormLogitechController(Constants.logitechControllerPort);
 //  private final JoystickButton homeButton = new JoystickButton(logitechController, 1);
@@ -38,6 +41,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    m_drivetrainSubsystem.zeroGyroscope();
     // Set up the default command for the drivetrain.
     // The controls are for field-oriented driving:
     // Left stick Y axis -> forward and backwards movement
@@ -45,11 +49,13 @@ public class RobotContainer {
     // Right stick X axis -> rotation
     m_drivetrainSubsystem.setDefaultCommand(new DefaultDriveCommand(
             m_drivetrainSubsystem,
-            () -> -modifyAxis(m_Logitechcontroller.getYAxis() * m_drivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND),
-            () ->  modifyAxis(m_Logitechcontroller.getXAxis() * m_drivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND),
-            () -> -modifyAxis(m_Logitechcontroller.getZAxis() * 0.2 * m_drivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND)
+            () -> modifyAxis(m_Logitechcontroller.getWPIX() * kDriveSpeedScale *  m_drivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND),
+            () ->  modifyAxis(m_Logitechcontroller.getWPIY() * kDriveSpeedScale *  m_drivetrainSubsystem.MAX_VELOCITY_METERS_PER_SECOND),
+            () -> modifyAxis(m_Logitechcontroller.getWPIRot() * kDriveSpeedScale * m_drivetrainSubsystem.MAX_ANGULAR_VELOCITY_RADIANS_PER_SECOND),
+            () -> m_Logitechcontroller.getRawButton(1)
     ));
 
+    new Trigger(() -> m_Logitechcontroller.getRawButton(2)).onTrue(new InstantCommand(m_drivetrainSubsystem::zeroGyroscope));
 
 //    // Configure the button bindings
 //    configureButtonBindings();
@@ -83,7 +89,7 @@ public class RobotContainer {
 
   private static double modifyAxis(double value) {
     // Square the axis
-    value = Math.copySign(value * value, value);
+//    value = Math.copySign(value * value, value);
 
     return value;
   }
